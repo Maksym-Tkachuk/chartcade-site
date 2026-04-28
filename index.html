@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chartcade — Animated Bar-Race Charts for YouTube Shorts and TikTok</title>
+  <meta name="description" content="Chartcade is a desktop tool that turns historical datasets into animated bar-race, countdown, and world-map chart videos and publishes them to YouTube Shorts and TikTok.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22><rect width=%2216%22 height=%2216%22 fill=%22%230d1120%22/><rect x=%222%22 y=%229%22 width=%2210%22 height=%222%22 fill=%22%23ffd60a%22/><rect x=%222%22 y=%2212%22 width=%226%22 height=%222%22 fill=%22%23ffb703%22/><rect x=%222%22 y=%226%22 width=%2213%22 height=%222%22 fill=%22%23ff9500%22/></svg>">
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; background: #080c14; color: #e8e8e8; margin: 0; padding: 0; line-height: 1.6; }
+    header { background: #0d1120; border-bottom: 1px solid #1a2235; padding: 1.5rem 2rem; }
+    header .brand { display: flex; align-items: center; gap: 0.75rem; max-width: 960px; margin: 0 auto; }
+    header .brand-mark { width: 36px; height: 36px; background: #0d1120; border: 1px solid #2a3a55; border-radius: 8px; display: grid; place-items: center; }
+    header .brand-name { font-size: 1.25rem; font-weight: 700; color: #ffd60a; letter-spacing: 0.02em; }
+    main { max-width: 960px; margin: 0 auto; padding: 3rem 2rem 4rem; }
+    .hero h1 { font-size: 2.4rem; line-height: 1.2; margin: 0 0 1rem; color: #ffd60a; }
+    .hero p.lead { font-size: 1.15rem; color: #c0cfe0; margin: 0 0 2rem; max-width: 680px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin: 2.5rem 0; }
+    .card { background: #0d1120; border: 1px solid #1a2235; border-radius: 12px; padding: 1.25rem 1.25rem 1.5rem; }
+    .card h3 { color: #ffb703; margin: 0 0 0.4rem; font-size: 1rem; }
+    .card p { color: #c0cfe0; margin: 0; font-size: 0.95rem; }
+    .links { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+    .links a { color: #4a9fc8; text-decoration: none; padding: 0.5rem 1rem; border: 1px solid #2a3a55; border-radius: 8px; font-size: 0.9rem; }
+    .links a:hover { color: #ffd60a; border-color: #ffd60a; }
+    footer { border-top: 1px solid #1a2235; padding: 1.5rem 2rem; text-align: center; color: #86a6c8; font-size: 0.85rem; }
+    footer a { color: #4a9fc8; }
+
+    .auth-callback { background: #1a2235; border-radius: 12px; padding: 2rem; margin: 2rem 0; }
+    .auth-callback h2 { color: #ffd60a; font-size: 1.2rem; margin-top: 0; }
+    .code-box { background: #080c14; border: 1px solid #2a3a55; border-radius: 8px; padding: 1rem; font-family: ui-monospace, monospace; font-size: 1rem; word-break: break-all; color: #ffd60a; margin: 1rem 0; cursor: pointer; }
+    .hint { color: #86a6c8; font-size: 0.9rem; }
+    .copied { color: #4ade80; }
+    .error { color: #f87171; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="9" width="11" height="2" fill="#ffd60a"/>
+          <rect x="1" y="12" width="7" height="2" fill="#ffb703"/>
+          <rect x="1" y="6" width="14" height="2" fill="#ff9500"/>
+        </svg>
+      </div>
+      <div class="brand-name">Chartcade</div>
+    </div>
+  </header>
+
+  <main>
+    <div id="auth-slot"></div>
+
+    <section class="hero">
+      <h1>Chartcade</h1>
+      <p class="lead">Chartcade is a desktop tool that turns historical datasets into animated bar-race, countdown, and world-map chart videos and publishes them to YouTube Shorts and TikTok.</p>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Render</h3>
+          <p>Generate vertical 1080x1920 chart animations locally from curated datasets.</p>
+        </div>
+        <div class="card">
+          <h3>Publish</h3>
+          <p>Upload directly to your own YouTube and TikTok accounts via official APIs.</p>
+        </div>
+        <div class="card">
+          <h3>Private by design</h3>
+          <p>OAuth tokens stay on your device. No analytics, no servers, no third-party tracking.</p>
+        </div>
+      </div>
+
+      <div class="links">
+        <a href="./privacy.html">Privacy Policy</a>
+        <a href="./terms.html">Terms of Service</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Chartcade &middot; <a href="https://maksym-tkachuk.github.io/chartcade-site/">maksym-tkachuk.github.io/chartcade-site</a>
+  </footer>
+
+  <script>
+    (function () {
+      const params = new URLSearchParams(location.search);
+      const code = params.get('code');
+      const error = params.get('error');
+      if (!code && !error) return;
+
+      const slot = document.getElementById('auth-slot');
+      const box = document.createElement('section');
+      box.className = 'auth-callback';
+
+      if (error) {
+        box.innerHTML =
+          '<h2>TikTok Authorization Failed</h2>' +
+          '<p class="error">' + error + '</p>' +
+          '<p class="hint">' + (params.get('error_description') || 'Try again from the Chartcade app.') + '</p>';
+      } else {
+        box.innerHTML =
+          '<h2>TikTok Authorization for Chartcade</h2>' +
+          '<p>Copy this code and paste it back into the Chartcade app to finish connecting your TikTok account.</p>' +
+          '<div class="code-box" id="auth-code">' + code + '</div>' +
+          '<p class="hint" id="auth-hint">Click the code to copy</p>';
+        slot.appendChild(box);
+        const codeEl = document.getElementById('auth-code');
+        codeEl.addEventListener('click', function () {
+          navigator.clipboard.writeText(code).then(function () {
+            const hint = document.getElementById('auth-hint');
+            hint.textContent = 'Copied!';
+            hint.className = 'copied';
+          });
+        });
+        return;
+      }
+      slot.appendChild(box);
+    })();
+  </script>
+</body>
+</html>
